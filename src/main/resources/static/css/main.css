@@ -1,0 +1,18 @@
+.question {
+    border: 2px solid black;
+    padding: 10px;
+    margin: 10px auto;
+    width: 800px;
+    border-radius: 10px;
+
+}
+
+.question:hover {
+    cursor: pointer;
+    border-color: #003cff;
+}
+
+
+ul {
+    list-style: none;
+}
