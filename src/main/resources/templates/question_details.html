@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="col-md-10 offset-1">
+        <h1>Question N : <span th:text="${question.id}"></span></h1>
+        <a th:href="'/leave/answer/'+${question.id}" class="btn btn-success">Leave Your Answer</a>
+        <div class="question-page" th:object="${question}">
+            <h2 th:text="*{title}"></h2>
+            <p th:text="*{body}"></p>
+            <span>Read Count <span th:text="*{readCount}"></span></span> ||
+            <span>Answers Count <span th:text="*{answersCount}"></span></span>
+        </div>
+        <h1>Answers</h1>
+        <div class="question-page" th:each="answer : ${answers}" th:object="${answer}">
+            <p>Answer N : <span th:text="*{id}"></span></p>
+            <p th:text="*{answer}"></p>
+        </div>
+    </div>
+</div>
+<a href="/">back</a>
+</body>
+</html>

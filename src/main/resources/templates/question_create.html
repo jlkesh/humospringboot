@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question Create</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <form method="post">
+                <div class="form-group">
+                    <label for="title">Question Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="Question Title" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="body">Question Body</label>
+                    <textarea class="form-control" name="body" id="body" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

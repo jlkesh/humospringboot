@@ -1,5 +1,3 @@
 function getQuestion(id) {
-    let url = window.location.href + "/" + id;
-    window.location.href = url;
-    console.log(id)
+    window.location.href = `http://localhost:8080/${id}`;
 }

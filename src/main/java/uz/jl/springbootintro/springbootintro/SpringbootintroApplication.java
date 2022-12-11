@@ -4,28 +4,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootApplication
+@Controller
 public class SpringbootintroApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringbootintroApplication.class, args);
-    }
-}
 
-
-@Controller
-class HomeController {
     List<Question> questions = new ArrayList<>() {{
         add(new Question("1", "int java", "Why int is int in java", 0, 0));
         add(new Question("2", "jvm", "Why java has three step class loading hierarchy", 0, 0));
@@ -39,45 +29,70 @@ class HomeController {
         add(new QuestionAnswer("5", "It was build like this for some private reason", LocalDateTime.now(), "2"));
     }};
 
-    @RequestMapping(value = {"/", "/home", "/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        model.addAttribute("questions", questions);
-        return "welcome";
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringbootintroApplication.class, args);
     }
 
-    @RequestMapping(value = "/welcome/{id}", method = RequestMethod.GET)
-    public String questionPage(Model model, @PathVariable(name = "id") String questionID) {
-        Optional<Question> optionalQuestion = questions.stream()
-                .filter(question -> question.id().equals(questionID))
-                .findFirst();
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    public String index(Model model) {
+        model.addAttribute("questions", questions);
+        return "welcome_page";
+    }
 
-        Question question = optionalQuestion.get();
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String questionPage(Model model, @PathVariable(name = "id") String questionID) {
+        Question question = questions.stream()
+                .filter(q -> q.id().equals(questionID))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Question with id : '%s' not found".formatted(questionID)));
 
         List<QuestionAnswer> answers = questionAnswers.stream()
                 .filter(questionAnswers -> questionAnswers.questionID().equals(questionID))
                 .toList();
-
-        model.addAttribute("questionID", questionID);
-        model.addAttribute("content", new QuestionDetails(question, answers));
-        return "question";
+        model.addAttribute("question", question);
+        model.addAttribute("answers", answers);
+        return "question_details";
     }
 
     @RequestMapping(value = "/leave/answer/{id}", method = RequestMethod.GET)
     public String leaveQuestionAnswerPage(Model model, @PathVariable(name = "id") String questionID) {
-        Optional<Question> optionalQuestion = questions.stream()
-                .filter(question -> question.id().equals(questionID))
-                .findFirst();
-        Question question = optionalQuestion.get();
+        Question question = questions.stream()
+                .filter(q -> q.id().equals(questionID))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Question with id : '%s' not found".formatted(questionID)));
         model.addAttribute("question", question);
-        return "leave_answer";
+        return "answer_create";
     }
 
     @RequestMapping(value = "/leave/answer/{id}", method = RequestMethod.POST)
-    public String leaveQuestionAnswer(@ModelAttribute LeaveAnswer leaveAnswer, @PathVariable(name = "id") String questionID) {
-        QuestionAnswer questionAnswer = new QuestionAnswer(UUID.randomUUID().toString(), leaveAnswer.answer(), LocalDateTime.now(), questionID);
+    public String leaveQuestionAnswer(@ModelAttribute AnswerCreate answerCreate, @PathVariable(name = "id") String questionID) {
+        QuestionAnswer questionAnswer = new QuestionAnswer(UUID.randomUUID().toString(), answerCreate.answer(), LocalDateTime.now(), questionID);
         questionAnswers.add(questionAnswer);
-        return "redirect:/welcome/" + questionID;
+        return "redirect:/" + questionID;
     }
+
+
+    @RequestMapping(value = "/question/create", method = RequestMethod.GET)
+    public String createQuestionPage() {
+        return "question_create";
+    }
+
+    @RequestMapping(value = "/question/create", method = RequestMethod.POST)
+    public String questionCreate(@ModelAttribute QuestionCreate dto) {
+        Question question = new Question(UUID.randomUUID().toString(), dto.title(), dto.body(), 0, 0);
+        questions.add(question);
+        return "redirect:/";
+    }
+
+
+    @ExceptionHandler(NotFoundException.class)
+    public String notFoundPage(NotFoundException e, Model model) {
+        model.addAttribute("error", e.getMessage());
+        return "404";
+    }
+
+
 }
 
 
@@ -87,8 +102,17 @@ record Question(String id, String title, String body, int readCount, int answers
 record QuestionAnswer(String id, String answer, LocalDateTime answeredAt, String questionID) {
 }
 
-record QuestionDetails(Question question, List<QuestionAnswer> answers) {
+record AnswerCreate(String answer) {
 }
 
-record LeaveAnswer(String answer) {
+record QuestionCreate(String title, String body) {
+
+}
+
+
+//--------------------------
+class NotFoundException extends RuntimeException {
+    public NotFoundException(String message) {
+        super(message);
+    }
 }
