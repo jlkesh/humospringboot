@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
-    <script th:src="@{/js/main.js}"></script>
-</head>
+<head th:include="fragments :: header"></head>
 <body>
 <div class="container">
     <div class="col-md-10 offset-1">
@@ -26,5 +20,6 @@
     </div>
 </div>
 <a href="/">back</a>
+<section th:include="fragments :: js_files"></section>
 </body>
 </html>

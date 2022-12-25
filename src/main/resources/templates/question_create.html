@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question Create</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
-    <script th:src="@{/js/main.js}"></script>
-</head>
+<head th:include="fragments :: header"></head>
 <body>
 <div class="container">
     <div class="row">
@@ -25,5 +19,6 @@
         </div>
     </div>
 </div>
+<section th:include="fragments :: js_files"></section>
 </body>
 </html>
