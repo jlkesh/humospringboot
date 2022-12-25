@@ -51,11 +51,11 @@
 <ul>
     <th:block th:each="question : ${questions}">
         <li>
-            <div class="question" th:onclick="getQuestion([[${question.id()}]])">
-                <h2 th:text="${question.title()}"></h2>
-                <p th:text="${question.body()}"></p>
-                <span>Read Count <span th:text="${question.readCount()}"></span></span> ||
-                <span>Answers Count <span th:text="${question.answersCount()}"></span></span>
+            <div class="question" th:onclick="getQuestion([[${question.id}]])">
+                <h2 th:text="${question.title}"></h2>
+                <p th:text="${question.body}"></p>
+                <span>Read Count <span th:text="${question.readCount}"></span></span> ||
+                <span>Answers Count <span th:text="${question.answersCount}"></span></span>
             </div>
         </li>
     </th:block>
