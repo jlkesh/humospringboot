@@ -24,10 +24,13 @@ public class QuestionService {
     }
 
     public Question get(@NonNull Long questionID) {
-        return questionRepository.findById(questionID)
+        Question question = questionRepository.findById(questionID)
                 .orElseThrow(() -> {
                     throw new NotFoundException("Question with id '%d' not found".formatted(questionID));
                 });
+        question.setReadCount(question.getReadCount() + 1);
+        questionRepository.save(question);
+        return question;
     }
 
     public Long create(@NonNull Question question) {

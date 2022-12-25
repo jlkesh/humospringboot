@@ -48,7 +48,9 @@ public class QuestionsController {
                 .answer(dto.answer())
                 .questionID(questionID)
                 .build();
-
+        Question question = questionService.get(questionID);
+        question.setAnswersCount(question.getAnswersCount()+1);
+        questionService.create(question);
         answerService.create(answer);
         return "redirect:/" + questionID;
     }
