@@ -3,5 +3,5 @@ package uz.jl.springbootintro.springbootintro.dto;
 import lombok.*;
 
 
-public record AnswerCreateDTO(String answer) {
+public record AnswerCreateDTO(String answer, Long questionID) {
 }

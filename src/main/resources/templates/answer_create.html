@@ -11,8 +11,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-3">
-            <h2 th:text="${question.body}"></h2>
-            <form method="post">
+            <h2 th:text="${question.title}"></h2>
+            <form method="post" th:action="@{/answer/}">
+                <input type="hidden" name="questionID" th:value="${question.id}" />
                 <div class="form-group">
                     <label for="answer">Your answer here</label>
                     <textarea class="form-control" name="answer" id="answer" rows="3"></textarea>

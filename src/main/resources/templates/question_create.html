@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:include="fragments :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
 <body>
 <div class="container">
     <div class="row">
@@ -19,6 +24,6 @@
         </div>
     </div>
 </div>
-<section th:include="fragments :: js_files"></section>
+</body>
 </body>
 </html>

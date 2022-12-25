@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments :: header"></head>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
 <body>
 <div class="container">
     <div class="col-md-10 offset-1">
         <h1>Question N : <span th:text="${question.id}"></span></h1>
-        <a th:href="'/leave/answer/'+${question.id}" class="btn btn-success">Leave Your Answer</a>
+        <a th:href="@{'/answer/'+${question.id}}" class="btn btn-success">Leave Your Answer</a>
         <div class="question-page" th:object="${question}">
             <h2 th:text="*{title}"></h2>
             <p th:text="*{body}"></p>
@@ -20,6 +26,5 @@
     </div>
 </div>
 <a href="/">back</a>
-<section th:include="fragments :: js_files"></section>
 </body>
 </html>

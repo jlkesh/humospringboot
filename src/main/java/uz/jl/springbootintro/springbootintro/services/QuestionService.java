@@ -4,6 +4,8 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.jl.springbootintro.springbootintro.domains.Question;
+import uz.jl.springbootintro.springbootintro.dto.QuestionCreateDTO;
+import uz.jl.springbootintro.springbootintro.dto.QuestionUpdateDTO;
 import uz.jl.springbootintro.springbootintro.exeptions.NotFoundException;
 import uz.jl.springbootintro.springbootintro.repositories.AnswerRepository;
 import uz.jl.springbootintro.springbootintro.repositories.QuestionRepository;
@@ -33,8 +35,24 @@ public class QuestionService {
         return question;
     }
 
-    public Long create(@NonNull Question question) {
+    public Long create(@NonNull QuestionCreateDTO dto) {
+        Question question = Question
+                .builder()
+                .title(dto.title())
+                .body(dto.body())
+                .build();
         questionRepository.save(question);
         return question.getId();
+    }
+
+    public void update(@NonNull QuestionUpdateDTO dto) {
+        Question question = get(dto.id());
+        question.setTitle(dto.title());
+        question.setBody(dto.body());
+        questionRepository.save(question);
+    }
+
+    public void delete(Long questionID) {
+        questionRepository.deleteById(questionID);
     }
 }

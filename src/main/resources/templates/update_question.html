@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <form method="post" th:action="@{/question/update}">
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="id" th:field="${question.id}" name="id">
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Question Title</label>
+                    <input type="text" class="form-control" id="title" th:field="${question.title}" placeholder="Question Title" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="body">Question Body</label>
+                    <textarea class="form-control" name="body" id="body" th:field="${question.body}" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="/question/" class="btn btn-success">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
