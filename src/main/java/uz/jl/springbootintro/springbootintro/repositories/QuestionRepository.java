@@ -5,4 +5,5 @@ import uz.jl.springbootintro.springbootintro.domains.Question;
 
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
+
 }
